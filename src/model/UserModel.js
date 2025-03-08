@@ -13,6 +13,10 @@ const userSchema = new Schema({
     },
     Password : {
         type : String
+    },
+    Role_id : {
+        type : Schema.Types.ObjectId,
+        ref : 'Role'
     }
 })
 

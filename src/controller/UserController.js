@@ -33,7 +33,23 @@ const loginUser = async(req,res) => {
     }
 }
 
+const getUser = async(req,res) => {
+    const savedUser = await userSchema.find().populate('Role_id')
+    if(savedUser){
+        res.status(200).json({
+            message : "User Fetched Successfully",
+            data : savedUser
+        })
+    }
+    else{
+        res.status(400).josn({
+            message : "Error In Fetching User"
+        })
+    }
+}
+
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    getUser
 }
