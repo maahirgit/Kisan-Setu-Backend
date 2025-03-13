@@ -55,14 +55,13 @@ const addArticle = async(req,res) => {
 }
 
 const getArticle = async(req,res) => {
-    const savedArticle = await articleSchema.find()
+    const savedArticle = await articleSchema.find().populate('Category_id')
     if(savedArticle){
         res.status(200).json({
             message : "Article Fetched Successfully",
             data : savedArticle
         })
     }
-
 }
 module.exports = {
     addArticle,

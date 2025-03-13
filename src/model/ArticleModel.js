@@ -10,7 +10,7 @@ const articleSchema = new Schema({
     },
     Category_id : {
         type : Schema.Types.ObjectId,
-        ref : 'Name'
+        ref : 'Articlecat'
     },
     Published_date : {
         type : Date
