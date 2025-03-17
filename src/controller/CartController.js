@@ -12,5 +12,17 @@ const createCart = async(req,res) => {
 }
 
 const getCart = async(req,res) => {
-    const getCart = await cartSchema.find
+    const getCart = await cartSchema.find().populate("User").populate("Product")
+
+    if(getCart){
+        res.status(200).json({
+            message : "Cart Fetched Successfully",
+            data : getCart
+        })
+    }
+}
+
+module.exports = {
+    createCart,
+    getCart
 }
