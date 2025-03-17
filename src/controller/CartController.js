@@ -12,7 +12,7 @@ const createCart = async(req,res) => {
 }
 
 const getCart = async(req,res) => {
-    const getCart = await cartSchema.find().populate("User").populate("Product")
+    const getCart = await cartSchema.find().populate("User_id").populate("Product_id")
 
     if(getCart){
         res.status(200).json({

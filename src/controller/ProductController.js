@@ -12,7 +12,7 @@ const createProduct = async(req,res) => {
 }
 
 const getProduct = async(req,res) => {
-    const getProduct = await productSchema.find().populate('Productcat')
+    const getProduct = await productSchema.find().populate('Category_id')
     if(getProduct){
         res.status(200).json({
             message : "Product Fetched Successfully",
