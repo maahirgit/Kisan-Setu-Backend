@@ -10,8 +10,8 @@ const Storage = multer.diskStorage({
 
 const upload = multer({
     storage : Storage,
-    limits : {fileSize : 1000000}
-}).single('Image_url') 
+    limits : {fileSize : 100000000}
+}).single('Images') 
 
 const addArticle = async(req,res) => {
     try{
@@ -22,8 +22,8 @@ const addArticle = async(req,res) => {
                 })
             }
             else{
-                /* const cloudres = await CloudinaryController.uploadFileinCloudinary(req.file)
-                const articleimg = cloudres.secure_url */
+                const cloudres = await CloudinaryController.uploadFileinCloudinary(req.file)
+                const articleimg = cloudres.secure_url
                 const articletitle = req.body.Title
                 const articlecontent = req.body.Content
                 const articlecategory = req.body.Category_id
@@ -35,7 +35,7 @@ const addArticle = async(req,res) => {
                     Content : articlecontent,
                     Category_id : articlecategory,
                     Published_date : articlepublish,
-                    //Image_url : articleimg, 
+                    Image_url : articleimg, 
                     Status : articlestatus,
                 }
 
