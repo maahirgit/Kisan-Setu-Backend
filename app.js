@@ -21,6 +21,12 @@ app.use("/article",ArticleRoutes)
 const ProductcatRoutes = require("./src/router/ProductCategoryRouter")
 app.use("/productcat",ProductcatRoutes)
 
+const OrderRoutes = require("./src/router/OrderRouter")
+app.use("/order",OrderRoutes)
+
+const ProductRoutes = require("./src/router/ProductRouter")
+app.use("/product",ProductRoutes)
+
 const db = mongoose.connect("mongodb://127.0.0.1:27017/KisanSetu")
 db.then((data) => {
     console.log("DB Connected")
