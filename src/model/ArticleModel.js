@@ -15,9 +15,9 @@ const articleSchema = new Schema({
     Published_date : {
         type : Date
     },
-    /* Image_url : {
+     Image_url : {
         type : String
-    }, */
+    }, 
     Status : {
         type : Boolean
     }

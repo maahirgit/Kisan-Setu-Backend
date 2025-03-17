@@ -22,8 +22,8 @@ const addArticle = async(req,res) => {
                 })
             }
             else{
-              //  const cloudres = await CloudinaryController.uploadFileinCloudinary(req.file)
-               // const articleimg = cloudres.secure_url
+                /* const cloudres = await CloudinaryController.uploadFileinCloudinary(req.file)
+                const articleimg = cloudres.secure_url */
                 const articletitle = req.body.Title
                 const articlecontent = req.body.Content
                 const articlecategory = req.body.Category_id
