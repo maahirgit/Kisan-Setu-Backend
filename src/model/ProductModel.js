@@ -9,6 +9,9 @@ const productScehma = new Schema({
     Product_name : {
         type : String
     },
+    Image_url : {
+        type : String
+    },
     Description : {
         type : String
     },
@@ -17,13 +20,13 @@ const productScehma = new Schema({
         ref : "Productcat"
     },
     Price : {
-        type : Number
+        type : String
     },
     Quantity : {
-        type : Number
+        type : String
     },
     Unit : {
-        type : Number
+        type : String
     },
     Status : {
         type : Boolean

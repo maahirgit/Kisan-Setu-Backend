@@ -11,7 +11,7 @@ const Storage = multer.diskStorage({
 const upload = multer({
     storage : Storage,
     limits : {fileSize : 100000000}
-}).single('Images') 
+}).single('Image_url') 
 
 const addArticle = async(req,res) => {
     try{

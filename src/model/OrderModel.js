@@ -10,9 +10,9 @@ const orderSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref : 'User'
     },
-    order_status : {
+   /*  order_status : {
         type : Boolean
-    },
+    }, */
     Quantity : {
         type : Number
     },
