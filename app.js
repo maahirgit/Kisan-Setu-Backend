@@ -30,7 +30,7 @@ app.use("/product",ProductRoutes)
 const CartRoutes = require("./src/router/CartRouter")
 app.use("/cart",CartRoutes)
 
-const db = mongoose.connect("mongodb://127.0.0.1:27017/KisanSetu")
+const db = mongoose.connect("mongodb+srv://maahir:maahir4252@omtraders.jrdqe.mongodb.net/kisansetu")
 db.then((data) => {
     console.log("DB Connected")
 }).catch((err) => {
