@@ -40,7 +40,25 @@ const getCartByUser = async (req, res) => {
   }
 };
 
+const deleteCartItem = async (req, res) => {
+  try {
+    const productId = req.params.productId;
+
+    const deletedItem = await cartSchema.findOneAndDelete({ Product_id: productId });
+
+    if (deletedItem) {
+      res.status(200).json({ message: "Cart item deleted successfully." });
+    } else {
+      res.status(404).json({ message: "Cart item not found." });
+    }
+  } catch (error) {
+    console.error("Error deleting cart item:", error);
+    res.status(500).json({ message: "Failed to delete cart item." });
+  }
+};
+
 module.exports = {
   createCart,
-  getCartByUser, // Changed getCart to getCartByUser
+  getCartByUser,
+  deleteCartItem,
 };
