@@ -8,6 +8,7 @@ const createUser = async(req,res) => {
     const user = Object.assign(req.body,{Password : hashed})
 
     const savedUser = await userSchema.create(user)
+    console.log(savedUser)
 
     res.status(200).json({
         message : "User Registered Successfully",
