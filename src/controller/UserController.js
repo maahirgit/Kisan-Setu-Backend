@@ -1,5 +1,6 @@
 const userSchema = require("../model/UserModel")
 const hashedPassword = require("../util/Encrypt")
+const jwt = require('jsonwebtoken')
 
 const createUser = async(req,res) => {
     const hashed = await hashedPassword.encryptPassword(req.body.Password)
