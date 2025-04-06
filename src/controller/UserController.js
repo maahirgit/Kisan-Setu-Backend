@@ -1,5 +1,3 @@
-// backend/controllers/UserController.js
-
 const userSchemaModel = require("../model/UserModel");
 const hashedPassword = require("../util/Encrypt");
 const jwt = require('jsonwebtoken');
@@ -32,7 +30,6 @@ const loginUser = async (req, res) => {
         const user = await userSchemaModel.findOne({ Email: email });
 
         if (user) {
-            // **Log the Role IDs**
             console.log("Frontend Role ID:", roleId);
             console.log("Database Role ID:", user.Role_id ? user.Role_id.toString() : "Role ID missing in database");
 
@@ -45,7 +42,7 @@ const loginUser = async (req, res) => {
             const isMatch = await hashedPassword.comparePassword(password, user.Password);
             if (isMatch) {
                 const token = jwt.sign({ userId: user._id, email: user.Email, roleId: user.Role_id }, secretKey, { expiresIn: '1h' });
-                res.status(200).json({ message: "User Login Successful", token: token });
+                res.status(200).json({ message: "User Login Successful", token: token, roleId: user.Role_id }); // Include roleId in response
             } else {
                 res.status(401).json({ message: "Incorrect password." });
             }
