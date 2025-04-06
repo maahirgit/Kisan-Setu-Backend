@@ -4,7 +4,6 @@ const createCart = async (req, res) => {
   try {
     const cart = req.body;
 
-    // Validate the request body
     if (!cart.Product_id || !cart.User_id || !cart.Quantity) {
       return res.status(400).json({ message: "Product_id, User_id, and Quantity are required." });
     }
@@ -21,17 +20,19 @@ const createCart = async (req, res) => {
   }
 };
 
-const getCart = async (req, res) => {
+const getCartByUser = async (req, res) => {
   try {
-    const getCart = await cartSchema.find().populate("User_id").populate("Product_id");
+    const userId = req.params.userId;
 
-    if (getCart) {
+    const getCart = await cartSchema.find({ User_id: userId }).populate("User_id").populate("Product_id");
+
+    if (getCart.length > 0) {
       res.status(200).json({
         message: "Cart Fetched Successfully",
         data: getCart,
       });
     } else {
-      res.status(404).json({ message: "Cart not found." });
+      res.status(404).json({ message: "Cart not found for this user." });
     }
   } catch (error) {
     console.error("Error fetching cart:", error);
@@ -41,5 +42,5 @@ const getCart = async (req, res) => {
 
 module.exports = {
   createCart,
-  getCart,
+  getCartByUser, // Changed getCart to getCartByUser
 };
