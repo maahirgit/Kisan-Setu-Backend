@@ -8,19 +8,13 @@ const createUser = async (req, res) => {
         const hashed = await hashedPassword.encryptPassword(req.body.Password);
         const user = Object.assign(req.body, { Password: hashed });
 
-        // Ensure RoleId is included in the request body
         if (!req.body.RoleId) {
             return res.status(400).json({ message: "RoleId is required." });
         }
-        user.Role_id = req.body.RoleId; // Add Role_id to the user object
+        user.Role_id = req.body.RoleId;
 
         const savedUser = await userSchemaModel.create(user);
-        console.log(savedUser);
-
-        res.status(200).json({
-            message: "User Registered Successfully",
-            data: savedUser
-        });
+        res.status(200).json({ message: "User Registered Successfully", data: savedUser });
     } catch (error) {
         console.error("Error creating user:", error);
         res.status(500).json({ message: "Failed to register user." });
@@ -31,32 +25,24 @@ const loginUser = async (req, res) => {
     try {
         const email = req.body.Email;
         const password = req.body.Password;
-        const employeebyemail = await userSchemaModel.findOne({ Email: email });
+        const roleId = req.body.RoleId;
 
-        if (employeebyemail) {
-            const isMatch = await hashedPassword.comparePassword(password, employeebyemail.Password);
+        const user = await userSchemaModel.findOne({ Email: email });
+
+        if (user) {
+            if (user.Role_id.toString() !== roleId) {
+                return res.status(401).json({ message: "Role ID mismatch." });
+            }
+
+            const isMatch = await hashedPassword.comparePassword(password, user.Password);
             if (isMatch) {
-                console.log("Password matched. Generating token...");
-                const token = jwt.sign(
-                    { userId: employeebyemail._id, email: employeebyemail.Email },
-                    secretKey,
-                    { expiresIn: '1h' }
-                );
-
-                console.log("Generated token:", token);
-                res.status(200).json({
-                    message: "User Login Successful",
-                    token: token
-                });
+                const token = jwt.sign({ userId: user._id, email: user.Email }, secretKey, { expiresIn: '1h' });
+                res.status(200).json({ message: "User Login Successful", token: token });
             } else {
-                res.status(401).json({
-                    message: "User Login unsuccessful"
-                });
+                res.status(401).json({ message: "User Login unsuccessful" });
             }
         } else {
-            res.status(404).json({
-                message: "User not found"
-            });
+            res.status(404).json({ message: "User not found" });
         }
     } catch (error) {
         console.error("Error during login:", error);
@@ -68,14 +54,9 @@ const getUser = async (req, res) => {
     try {
         const savedUser = await userSchemaModel.find().populate('Role_id');
         if (savedUser && savedUser.length > 0) {
-            res.status(200).json({
-                message: "Users Fetched Successfully",
-                data: savedUser
-            });
+            res.status(200).json({ message: "Users Fetched Successfully", data: savedUser });
         } else {
-            res.status(404).json({
-                message: "No users found"
-            });
+            res.status(404).json({ message: "No users found" });
         }
     } catch (error) {
         console.error("Error fetching users:", error);
@@ -83,8 +64,4 @@ const getUser = async (req, res) => {
     }
 };
 
-module.exports = {
-    createUser,
-    loginUser,
-    getUser
-};
+module.exports = { createUser, loginUser, getUser };
