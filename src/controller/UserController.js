@@ -36,13 +36,13 @@ const loginUser = async (req, res) => {
 
             const isMatch = await hashedPassword.comparePassword(password, user.Password);
             if (isMatch) {
-                const token = jwt.sign({ userId: user._id, email: user.Email }, secretKey, { expiresIn: '1h' });
+                const token = jwt.sign({ userId: user._id, email: user.Email, roleId: user.Role_id }, secretKey, { expiresIn: '1h' });
                 res.status(200).json({ message: "User Login Successful", token: token });
             } else {
-                res.status(401).json({ message: "User Login unsuccessful" });
+                res.status(401).json({ message: "Incorrect password." });
             }
         } else {
-            res.status(404).json({ message: "User not found" });
+            res.status(404).json({ message: "User not found." });
         }
     } catch (error) {
         console.error("Error during login:", error);
