@@ -31,22 +31,14 @@ const loginUser = async (req, res) => {
     try {
         const email = req.body.Email;
         const password = req.body.Password;
-        const roleId = req.body.RoleId; // Get RoleId from request body
+        const employeebyemail = await userSchemaModel.findOne({ Email: email });
 
-        const user = await userSchemaModel.findOne({
-            Email: email
-        });
-
-        if (user) {
-            if (user.Role_id.toString() !== roleId) {
-                return res.status(401).json({ message: "Role ID mismatch." });
-            }
-
-            const isMatch = await hashedPassword.comparePassword(password, user.Password);
+        if (employeebyemail) {
+            const isMatch = await hashedPassword.comparePassword(password, employeebyemail.Password);
             if (isMatch) {
                 console.log("Password matched. Generating token...");
                 const token = jwt.sign(
-                    { userId: user._id, email: user.Email },
+                    { userId: employeebyemail._id, email: employeebyemail.Email },
                     secretKey,
                     { expiresIn: '1h' }
                 );
