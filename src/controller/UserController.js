@@ -3,7 +3,6 @@ const hashedPassword = require("../util/Encrypt")
 const jwt = require('jsonwebtoken')
 const secretKey = 'kisanSetu'
 
-
 const createUser = async(req,res) => {
     const hashed = await hashedPassword.encryptPassword(req.body.Password)
     const user = Object.assign(req.body,{Password : hashed})
@@ -27,7 +26,7 @@ const loginUser = async(req,res) => {
             console.log("Password matched. Generating token...");
             const token = jwt.sign(
                 { userId: employeebyemail._id, email: employeebyemail.Email },
-                process.secretKey,
+                secretKey,
                 { expiresIn: '1h' }
             );
 
