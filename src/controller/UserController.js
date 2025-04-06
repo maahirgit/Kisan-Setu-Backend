@@ -32,12 +32,13 @@ const loginUser = async (req, res) => {
         const user = await userSchemaModel.findOne({ Email: email });
 
         if (user) {
-            // **Crucial: Check if user.Role_id exists**
+            // **Important: String Comparison for Role ID**
             if (user.Role_id && user.Role_id.toString() !== roleId) {
                 return res.status(401).json({ message: "Role ID mismatch." });
             } else if (!user.Role_id) {
                 return res.status(400).json({ message: "User Role ID is missing." });
             }
+
             const isMatch = await hashedPassword.comparePassword(password, user.Password);
             if (isMatch) {
                 const token = jwt.sign({ userId: user._id, email: user.Email, roleId: user.Role_id }, secretKey, { expiresIn: '1h' });
