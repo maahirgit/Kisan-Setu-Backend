@@ -1,6 +1,8 @@
 const userSchema = require("../model/UserModel")
 const hashedPassword = require("../util/Encrypt")
 const jwt = require('jsonwebtoken')
+const secretKey = 'kisanSetu'
+
 
 const createUser = async(req,res) => {
     const hashed = await hashedPassword.encryptPassword(req.body.Password)
@@ -25,7 +27,7 @@ const loginUser = async(req,res) => {
             console.log("Password matched. Generating token...");
             const token = jwt.sign(
                 { userId: employeebyemail._id, email: employeebyemail.Email },
-                process.env.JWT_SECRET,
+                process.secretKey,
                 { expiresIn: '1h' }
             );
 
