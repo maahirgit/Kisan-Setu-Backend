@@ -15,10 +15,10 @@ const productScehma = new Schema({
     Description : {
         type : String
     },
-    Category_id : {
+  /*   Category_id : {
         type : Schema.Types.ObjectId,
         ref : "Productcat"
-    },
+    }, */
     Price : {
         type : String
     },
