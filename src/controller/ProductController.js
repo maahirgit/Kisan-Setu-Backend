@@ -69,7 +69,8 @@ const getProduct = async (req, res) => {
 
 const getProductById = async (req, res) => {
     try {
-        const { id } = req.params.id;
+        const { id } = req.params;
+        console.log(id)
         const product = await productSchema.findById(id).populate('User_id');
 
         if (product) {
