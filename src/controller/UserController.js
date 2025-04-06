@@ -32,7 +32,8 @@ const loginUser = async(req,res) => {
 
             console.log("Generated token:", token);
             res.status(200).json({
-                message : "User Login Successful"
+                message : "User Login Successful",
+                token : token
             })
         }
         else{
