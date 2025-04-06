@@ -1,4 +1,4 @@
-const userSchema = require("../model/UserModel");
+const userSchemaModel = require("../model/UserModel");
 const hashedPassword = require("../util/Encrypt");
 const jwt = require('jsonwebtoken');
 const secretKey = 'kisanSetu';
@@ -12,8 +12,9 @@ const createUser = async (req, res) => {
         if (!req.body.RoleId) {
             return res.status(400).json({ message: "RoleId is required." });
         }
+        user.Role_id = req.body.RoleId; // Add Role_id to the user object
 
-        const savedUser = await userSchema.create(user);
+        const savedUser = await userSchemaModel.create(user);
         console.log(savedUser);
 
         res.status(200).json({
@@ -30,7 +31,7 @@ const loginUser = async (req, res) => {
     try {
         const email = req.body.Email;
         const password = req.body.Password;
-        const employeebyemail = await userSchema.findOne({ Email: email });
+        const employeebyemail = await userSchemaModel.findOne({ Email: email });
 
         if (employeebyemail) {
             const isMatch = await hashedPassword.comparePassword(password, employeebyemail.Password);
@@ -65,7 +66,7 @@ const loginUser = async (req, res) => {
 
 const getUser = async (req, res) => {
     try {
-        const savedUser = await userSchema.find().populate('Role_id');
+        const savedUser = await userSchemaModel.find().populate('Role_id');
         if (savedUser && savedUser.length > 0) {
             res.status(200).json({
                 message: "Users Fetched Successfully",
