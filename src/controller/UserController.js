@@ -21,6 +21,14 @@ const loginUser = async(req,res) => {
     if(employeebyemail){
         const isMatch = await hashedPassword.comparePassword(password,employeebyemail.Password)
         if(isMatch){
+            console.log("Password matched. Generating token...");
+            const token = jwt.sign(
+                { userId: employeebyemail._id, email: employeebyemail.Email },
+                process.env.JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+
+            console.log("Generated token:", token);
             res.status(200).json({
                 message : "User Login Successful"
             })
