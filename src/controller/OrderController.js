@@ -1,4 +1,5 @@
 const Order = require("../model/OrderModel")
+const orderSchema = require("../model/OrderModel")
 const mongoose = require('mongoose');
 
 const createOrder = async (req, res) => {
@@ -32,9 +33,9 @@ const createOrder = async (req, res) => {
         const newOrder = new Order({
             Product_id: new mongoose.Types.ObjectId(Product_id),
             User_id: new mongoose.Types.ObjectId(User_id),
-            Quantity,
-            Price_per_peice,
-            Total_price
+            Quantity: req.body.Quantity,
+            Price_per_peice: req.body.Price_per_peice,
+            Total_price: req.body.Total_price
         });
 
         console.log("New Order Object Created: ", newOrder);
