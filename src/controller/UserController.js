@@ -1,3 +1,5 @@
+// backend/controllers/UserController.js
+
 const userSchemaModel = require("../model/UserModel");
 const hashedPassword = require("../util/Encrypt");
 const jwt = require('jsonwebtoken');
@@ -46,6 +48,8 @@ const loginUser = async (req, res) => {
         }
     } catch (error) {
         console.error("Error during login:", error);
+        console.error("Request body:", req.body); // Log the request body
+        console.error("Stack trace:", error.stack); // Log the stack trace
         res.status(500).json({ message: "Login failed due to server error." });
     }
 };
