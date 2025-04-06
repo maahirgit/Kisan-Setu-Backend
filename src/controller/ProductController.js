@@ -70,7 +70,7 @@ const getProduct = async (req, res) => {
 const getProductById = async (req, res) => {
     try {
         const { id } = req.params;
-        const product = await productSchema.findById(id).populate('Category_id').populate('User_id');
+        const product = await productSchema.findById(id).populate('User_id');
 
         if (product) {
             res.status(200).json({
